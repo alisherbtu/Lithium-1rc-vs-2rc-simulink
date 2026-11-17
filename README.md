@@ -19,15 +19,47 @@ OCV table: SOC `[0 0.2 0.5 0.8 1.0]` -> V0 `[3.0 3.5 3.7 4.0 4.2]` V, initial SO
 ## Test
 Pulse discharge: 0 A until 300 s (rest), 1.5 A from 300 s to 3900 s, then 0 A (rest) until 6000 s.
 
+## Files
+| File | Description |
+|---|---|
+| `one_RC_Cell.slx` | 1RC cell model |
+| `two_RC_Cell.slx` | 2RC cell model |
+| `1Rc.png` | 1RC test result (voltage and current) |
+| `Two_RC.png` | 2RC test result (voltage and current) |
+| `Two_RC_Zoom.png` | 2RC voltage, zoomed on the relaxation |
+| `1RC_vs_2RC.png` | 1RC vs 2RC comparison |
+
 ## Results
-![Comparison](comparison_1rc_vs_2rc_relaxation.png)
+
+### 1RC cell
+![1RC result](1Rc.png)
+
+### 2RC cell
+![2RC result](Two_RC.png)
+
+![2RC zoom](Two_RC_Zoom.png)
+
+### 1RC vs 2RC
+![1RC vs 2RC](1RC_vs_2RC.png)
 
 - Both models show the same instant drop/jump (I*R0 = 30 mV) and settle at 3.70 V, the OCV at 50 % SOC.
 - The 1RC model relaxes with a single time constant.
 - The 2RC model adds a slow tail from the second branch, which the 1RC model cannot reproduce.
 
 ## How to run
-1. Set the parameters for the model you want (see the table above).
+1. Set the parameters in the MATLAB Command Window.
+
+   For `one_RC_Cell.slx`:
+   ```matlab
+   Qcell = 3.0; R0cell = 0.02;
+   R1cell = 0.025; tau1 = 100;
+   ```
+   For `two_RC_Cell.slx`:
+   ```matlab
+   Qcell = 3.0; R0cell = 0.02;
+   R1cell = 0.015; tau1 = 30;
+   R2cell = 0.010; tau2 = 300;
+   ```
 2. Open the `.slx` model and press Run (solver ode23t, stop time 6000 s).
 
 Requires MATLAB, Simulink, Simscape and Simscape Electrical (Battery Table-Based block).
